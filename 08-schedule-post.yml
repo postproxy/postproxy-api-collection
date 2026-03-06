@@ -1,0 +1,39 @@
+info:
+  name: Schedule Post
+  type: http
+  seq: 8
+
+http:
+  method: POST
+  url: "{{base_url}}/api/posts"
+  body:
+    type: json
+    data: |-
+      {
+        "post": {
+          "body": "Big announcement coming at noon!",
+          "scheduled_at": "2024-01-20T12:00:00Z"
+        },
+        "profiles": ["twitter", "linkedin"]
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+
+docs: |-
+  Schedule a post to publish at a specific time in the future.
+
+  Set `scheduled_at` to an ISO 8601 timestamp. The response will have
+  `status: "scheduled"` and `attempted_at: null` until the scheduled time.
+
+  Postproxy handles the scheduling automatically — no polling needed.
+
+  Update `scheduled_at` to a future timestamp and replace `profiles` with
+  your connected platform names.

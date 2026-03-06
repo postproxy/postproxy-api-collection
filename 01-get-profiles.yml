@@ -1,0 +1,27 @@
+info:
+  name: Get Profiles
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/api/profiles"
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+
+docs: |-
+  List all connected social media profiles in your account.
+
+  The `id` field in the response can be used when creating posts to target a
+  specific profile. You can also use platform names like `"twitter"` as a
+  shorthand — Postproxy will pick the first connected profile for that platform.
+
+  Run this first to discover your available profile IDs.

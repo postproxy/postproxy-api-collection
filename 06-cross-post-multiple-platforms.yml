@@ -1,0 +1,54 @@
+info:
+  name: Cross-post to Multiple Platforms
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: "{{base_url}}/api/posts"
+  body:
+    type: json
+    data: |-
+      {
+        "post": {
+          "body": "New video is live!"
+        },
+        "profiles": ["youtube", "tiktok", "instagram"],
+        "media": ["https://example.com/video.mp4"],
+        "platforms": {
+          "youtube": {
+            "title": "Getting Started Tutorial",
+            "privacy_status": "public"
+          },
+          "tiktok": {
+            "format": "video",
+            "privacy_status": "PUBLIC_TO_EVERYONE"
+          },
+          "instagram": {
+            "format": "reel",
+            "first_comment": "Full tutorial on our channel!"
+          }
+        }
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+
+docs: |-
+  Post a video to YouTube, TikTok, and Instagram simultaneously with
+  platform-specific parameters for each.
+
+  Each platform in the `platforms` object gets its own settings:
+  - **YouTube**: requires a `title`; supports `privacy_status` (public/unlisted/private)
+  - **TikTok**: supports `format` (video/photo) and `privacy_status`
+  - **Instagram**: supports `format` (reel/post/story) and `first_comment`
+
+  Replace the `media` URL with your video URL and update `profiles` to match
+  your connected accounts. Run **Get Profiles** to find available platform names.

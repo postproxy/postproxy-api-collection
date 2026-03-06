@@ -1,0 +1,46 @@
+info:
+  name: Create Thread
+  type: http
+  seq: 7
+
+http:
+  method: POST
+  url: "{{base_url}}/api/posts"
+  body:
+    type: json
+    data: |-
+      {
+        "post": {
+          "body": "1/ Here is a thread about our product launch"
+        },
+        "profiles": ["twitter", "threads"],
+        "thread": [
+          { "body": "2/ First, we built the foundation..." },
+          { "body": "3/ Then we added the key features...", "media": ["https://example.com/screenshot.jpg"] },
+          { "body": "4/ And finally, we launched! Check it out at example.com" }
+        ]
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+
+docs: |-
+  Post a multi-part thread to X (Twitter) and Threads.
+
+  Each item in the `thread` array becomes a reply to the previous post.
+  Thread children can also include `media` URLs.
+
+  Notes:
+  - Threads are only supported on X (Twitter) and Threads platforms.
+  - The array order determines the posting sequence.
+  - Per-platform chains run independently — a failure on X does not block Threads.
+
+  Update `profiles` to match your connected accounts and edit the `body` fields
+  with your actual thread content.

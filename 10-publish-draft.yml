@@ -1,0 +1,29 @@
+info:
+  name: Publish Draft
+  type: http
+  seq: 10
+
+http:
+  method: POST
+  url: "{{base_url}}/api/posts/{{draft_post_id}}/publish"
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+
+docs: |-
+  Publish a previously created draft post. This is step 2 of 2.
+
+  **Step 1**: Run **Create Draft** first. The post ID will be automatically
+  saved to the `draft_post_id` variable, which this request uses in the URL.
+
+  **Manual option**: Replace `{{draft_post_id}}` in the URL directly with a
+  post ID from a draft post (status: "draft") in your account.
+
+  The response will have `status: "processing"` once publishing begins.

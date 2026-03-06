@@ -1,0 +1,8 @@
+name: Production
+
+variables:
+  - name: base_url
+    value: https://api.postproxy.dev
+  - name: api_key
+    value: YOUR_API_KEY
+    secret: true

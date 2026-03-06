@@ -1,0 +1,36 @@
+info:
+  name: Create Post
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{base_url}}/api/posts"
+  body:
+    type: json
+    data: |-
+      {
+        "post": {
+          "body": "Exciting news — we just launched our new feature!"
+        },
+        "profiles": ["twitter"],
+        "media": ["https://example.com/launch.jpg"]
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+
+docs: |-
+  Publish a post with an image to a single platform.
+
+  - Replace `"twitter"` in `profiles` with any connected platform name or profile ID.
+  - Replace the `media` URL with a publicly accessible image or video URL,
+    or remove the `media` field entirely for a text-only post.
+  - Run **Get Profiles** first to find available platform names and IDs.

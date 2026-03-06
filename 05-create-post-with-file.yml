@@ -1,0 +1,38 @@
+info:
+  name: Create Post with Local File
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{base_url}}/api/posts"
+  body:
+    type: multipart-form
+    data:
+      - name: post[body]
+        value: "Check out this photo from my computer!"
+      - name: profiles[]
+        value: instagram
+      - name: media[]
+        value: "@/path/to/your/image.jpg"
+        contentType: image/jpeg
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+
+docs: |-
+  Upload a local file directly instead of passing a media URL.
+
+  Before sending:
+  1. Click the `media[]` row in the Body tab and change it to a **File** field.
+  2. Select an image or video from your local filesystem.
+  3. Replace `instagram` in `profiles[]` with your target platform.
+
+  This uses `multipart/form-data` — the same format as the `-F` flag in curl.

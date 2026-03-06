@@ -1,0 +1,41 @@
+info:
+  name: Connect New Profile
+  type: http
+  seq: 12
+
+http:
+  method: POST
+  url: "{{base_url}}/api/profile_groups/YOUR_PROFILE_GROUP_ID/initialize_connection"
+  body:
+    type: json
+    data: |-
+      {
+        "platform": "instagram",
+        "redirect_url": "https://myapp.com/oauth/callback"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+
+docs: |-
+  Generate an OAuth URL for connecting a new social media account.
+
+  Redirect your user to the returned `url` — after they authenticate, they'll
+  be sent back to your `redirect_url` and the profile is created automatically.
+
+  Before sending:
+  1. Replace `YOUR_PROFILE_GROUP_ID` in the URL with your actual profile group ID.
+     Find it in your Postproxy dashboard or from the **Get Profiles** response
+     (`profile_group_id` field).
+  2. Replace `"instagram"` with the target platform.
+  3. Replace `redirect_url` with your OAuth callback URL.
+
+  Supported platforms: `facebook`, `instagram`, `tiktok`, `linkedin`, `youtube`,
+  `twitter`, `threads`, `pinterest`.

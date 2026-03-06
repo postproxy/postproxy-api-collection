@@ -1,0 +1,38 @@
+info:
+  name: Get Post Stats
+  type: http
+  seq: 11
+
+http:
+  method: GET
+  url: "{{base_url}}/api/posts/stats"
+  params:
+    - name: post_ids
+      value: abc123,def456
+      type: query
+    - name: profiles
+      value: instagram,twitter
+      type: query
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+
+docs: |-
+  Retrieve engagement metrics (impressions, likes, comments, etc.) for one or
+  more posts. Stats are collected periodically and returned as time-series
+  snapshots.
+
+  Before sending:
+  - Replace `abc123,def456` in `post_ids` with comma-separated real post IDs.
+  - Update `profiles` to filter by specific platforms (e.g. `instagram,twitter`),
+    or remove the `profiles` param to get stats for all platforms.
+
+  Stats fields vary by platform (e.g. Twitter has `retweets`, Instagram has `saved`).
+  Run **List Posts** to find post IDs from your account.

@@ -1,0 +1,48 @@
+info:
+  name: Create Draft
+  type: http
+  seq: 9
+
+http:
+  method: POST
+  url: "{{base_url}}/api/posts"
+  body:
+    type: json
+    data: |-
+      {
+        "post": {
+          "body": "Draft content to review before posting",
+          "draft": true
+        },
+        "profiles": ["instagram", "facebook"],
+        "media": ["https://example.com/photo.jpg"]
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+  scripts:
+    - type: after-response
+      code: |-
+        if (res.status === 200 && res.body.id) {
+          bru.setVar("draft_post_id", res.body.id);
+          console.log("Draft ID saved:", res.body.id);
+          console.log("Now run '10 - Publish Draft' to publish it.");
+        }
+
+settings:
+  encodeUrl: true
+
+docs: |-
+  Create a post without publishing it immediately. Review the content,
+  then publish it with a separate API call when ready.
+
+  The response will have `status: "draft"`.
+
+  After running this request, the draft post ID is automatically saved to the
+  `draft_post_id` variable. Run **Publish Draft** next to publish it.
+
+  This is step 1 of 2. See **Publish Draft** for step 2.

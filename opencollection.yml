@@ -1,0 +1,27 @@
+opencollection: 1.0.0
+
+info:
+  name: Postproxy API
+
+request:
+  auth:
+    type: bearer
+    token: "{{api_key}}"
+
+docs:
+  content: |-
+    # Postproxy API Collection
+
+    Ready-to-run examples covering the most common Postproxy workflows.
+
+    ## Setup
+
+    1. Open the **Environments** panel (top right in Bruno).
+    2. Select the **Production** environment.
+    3. Replace `YOUR_API_KEY` with your actual Postproxy API key.
+    4. Run any request — the Bearer token is applied automatically to all requests.
+
+    `base_url` is pre-filled — you only need to replace `YOUR_API_KEY`.
+
+    Get your API key at https://app.postproxy.dev
+  type: text/markdown
