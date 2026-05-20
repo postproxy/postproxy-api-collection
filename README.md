@@ -60,6 +60,8 @@ Select **Get Profiles** and hit send. You should see your connected social accou
 | 10 | Publish Draft | Publish a saved draft — step 2 of 2 |
 | 11 | Get Post Stats | Engagement metrics (impressions, likes, etc.) for one or more posts |
 | 12 | Connect New Profile | Generate an OAuth URL to connect a new social account |
+| 13 | Create Comment | Post a comment on one of your published posts |
+| 14 | Reply to Comment | Reply to an existing comment using `parent_id` |
 
 ---
 
