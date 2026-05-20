@@ -1,0 +1,35 @@
+info:
+  name: Create Comment
+  type: http
+  seq: 13
+
+http:
+  method: POST
+  url: "{{base_url}}/api/posts/POST_ID/comments?profile_id=PROFILE_ID"
+  body:
+    type: json
+    data: |-
+      {
+        "text": "Thanks for the feedback everyone!"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+
+docs: |-
+  Post a comment on one of your published posts.
+
+  - Replace `POST_ID` in the URL with the ID of the post to comment on.
+  - Replace `PROFILE_ID` in the URL with the profile that should post the comment.
+  - Run **Get Profiles** first to find available profile IDs.
+
+  The comment starts as `"pending"` and transitions to `"published"` once it goes live on the platform.
+
+  Supported platforms: Instagram, Facebook (Threads, YouTube, and LinkedIn coming soon).
